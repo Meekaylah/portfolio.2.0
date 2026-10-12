@@ -23,18 +23,6 @@ npm run dev
 
 Then open [http://localhost:3000](http://localhost:3000).
 
-### Contact form
-
-The form works without any setup, but it can only send email once these are in a `.env.local` file:
-
-```
-RESEND_API_KEY=re_...
-CONTACT_FROM=Portfolio <hello@your-verified-domain>
-CONTACT_TO=you@example.com
-```
-
-`CONTACT_FROM` must use a domain verified in Resend. Without these variables the form shows its "that didn't send" message.
-
 ## Scripts
 
 | Command | What it does |
