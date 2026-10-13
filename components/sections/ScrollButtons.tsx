@@ -28,7 +28,7 @@ export function ScrollButtons({ targetId }: { targetId: string }) {
       <button
         type="button"
         aria-label="Next projects"
-        className="btn-outline size-12 bg-ink p-0 text-[1.125rem] text-paper hover:border-rose hover:bg-rose"
+        className="btn-outline size-12 bg-ink p-0 text-[1.125rem] text-paper [--btn-fill:var(--color-rose)] hover:border-rose"
         onClick={() => scroll(1)}
       >
         →

@@ -249,9 +249,9 @@
     font-weight: 500;
     background: var(--color-ink);
     color: var(--color-paper);
-    transition: background-color 150ms var(--ease-soft), transform 150ms var(--ease-soft);
+    transition: transform 150ms var(--ease-soft);
+    --btn-fill: var(--color-rose);       /* hover colour, flows in from the bottom-left */
   }
-  .btn:hover { background: var(--color-rose); }
   .btn:active { transform: translateY(1px); }
 
   /* Secondary: outlined. Used for arrows, Menu, Preview. */
@@ -268,11 +268,36 @@
     background: transparent;
     color: var(--color-ink);
     font-size: var(--text-small);
-    transition: background-color 150ms var(--ease-soft), color 150ms var(--ease-soft);
+    transition: color 200ms ease 280ms;  /* waits for the fill to reach the label */
+    --btn-fill: var(--color-ink);
   }
-  .btn-outline:hover { background: var(--color-ink); color: var(--color-paper); }
 
   /* On the plum section, swap to the soft petal button */
-  .on-ink .btn { background: var(--color-petal); color: var(--color-ink); }
-  .on-ink .btn:hover { background: var(--color-paper); }
+  .on-ink .btn { background: var(--color-petal); color: var(--color-ink); --btn-fill: var(--color-paper); }
+
+  /* Hover fill for every button: a big circle of the hover colour waits past
+     the bottom-left corner and flows up to the top right behind the label. Only on devices that
+     can hover, so it never sticks after a tap. */
+  .btn,
+  .btn-outline {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .btn::before,
+  .btn-outline::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 100%;
+    background: var(--btn-fill);
+    transform: translate(-150%, 150%) scale(2.5);
+    transition: transform 800ms var(--ease-in-out-soft);
+  }
+  @media (hover: hover) {
+    .btn:hover:not(:disabled)::before,
+    .btn-outline:hover:not(:disabled)::before { transform: translate(0, 0) scale(2.5); }
+    .btn-outline:hover { color: var(--color-paper); }
+  }
 }

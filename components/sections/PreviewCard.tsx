@@ -94,7 +94,7 @@ export function PreviewCard({ title, video, poster, className, mediaClassName, s
           ref={button}
           type="button"
           aria-label={`${playing ? "Pause" : "Play"} preview of ${title}`}
-          className="btn-outline absolute right-3 bottom-3 hidden bg-paper text-caption text-ink hover:bg-ink hover:text-paper motion-reduce:inline-flex [@media(hover:none)]:inline-flex"
+          className="btn-outline absolute right-3 bottom-3 hidden bg-paper text-caption motion-reduce:inline-flex [@media(hover:none)]:inline-flex"
           onClick={() => (playing ? stop() : start())}
         >
           {playing ? "Pause" : "▶ Preview"}

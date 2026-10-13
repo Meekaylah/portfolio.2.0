@@ -20,9 +20,16 @@ function SideNav({ label, links, className }: { label: string; links: MenuLink[]
         <MaybeLink
           key={link.label}
           href={link.href}
-          className="inline-flex min-h-11 items-center transition-colors duration-150 hover:text-rose"
+          className="group inline-flex min-h-11 items-center"
         >
-          {link.label}
+          {/* A crooked petal highlight sweeps in from the left on hover or keyboard focus */}
+          <span className="relative">
+            <span
+              aria-hidden="true"
+              className="absolute inset-y-0 -left-1.5 w-0 scale-y-90 -skew-y-1 bg-petal transition-[width] duration-300 ease-soft group-focus-visible:w-[calc(100%+0.75rem)] group-hover:w-[calc(100%+0.75rem)]"
+            />
+            <span className="relative">{link.label}</span>
+          </span>
         </MaybeLink>
       ))}
     </nav>
