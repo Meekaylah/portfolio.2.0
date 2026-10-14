@@ -1,10 +1,21 @@
 "use client";
 
 import { useReducedMotion } from "motion/react";
+import { useEffect, useState } from "react";
 
-/* ← → for the project row. Hidden below 720px, where the row is swiped. */
+/* ← → for the project row. Only there when the row is wider than its track,
+   so they go away once every project fits on screen. */
 export function ScrollButtons({ targetId }: { targetId: string }) {
   const reduced = useReducedMotion();
+  const [overflows, setOverflows] = useState(false);
+
+  useEffect(() => {
+    const track = document.getElementById(targetId);
+    if (!track) return;
+    const observer = new ResizeObserver(() => setOverflows(track.scrollWidth > track.clientWidth + 1));
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, [targetId]);
 
   function scroll(direction: 1 | -1) {
     const track = document.getElementById(targetId);
@@ -16,7 +27,7 @@ export function ScrollButtons({ targetId }: { targetId: string }) {
   }
 
   return (
-    <div className="flex gap-2.5 max-nav:hidden">
+    <div className={overflows ? "flex gap-2.5" : "hidden"}>
       <button
         type="button"
         aria-label="Previous projects"

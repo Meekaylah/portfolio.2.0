@@ -21,13 +21,24 @@ test.describe("on a phone", () => {
     });
 });
 
-test("a project preview plays on hover", async ({ page }) => {
+test("a project preview plays on hover, and not before", async ({ page }) => {
+    const videos: string[] = [];
+    page.on("request", (request) => {
+        if (/\.(webm|mp4)(\?|$)/.test(request.url())) videos.push(request.url());
+    });
+
     await page.goto("/");
-    const card = page.locator("#work-track > li").filter({ has: page.locator("button[aria-label^='Play preview']") }).first();
+    await page.waitForLoadState("networkidle");
+    const card = page.locator("#work-track > li").filter({ has: page.locator("button[aria-label*='preview of']") }).first();
     test.skip((await card.count()) === 0, "No project has video yet");
+
+    // Nothing but the stills until someone asks for a preview.
+    await expect(card.locator("video")).toHaveCount(0);
+    expect(videos).toEqual([]);
 
     await card.hover();
     const video = card.locator("video");
     await expect(video).toBeAttached();
     await expect.poll(() => video.evaluate((v: HTMLVideoElement) => !v.paused)).toBe(true);
-})
+    expect(videos.length).toBeGreaterThan(0);
+});

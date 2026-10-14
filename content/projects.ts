@@ -13,59 +13,51 @@ export type Project = {
   tint: "tint-pink" | "tint-sage" | "tint-butter";
   /** Until supplied, the card shows a "[still image]" block. */
   still?: { src: StaticImageData | string; alt: string };
-  /** Muted screen recording. Without one the card stays a still. */
-  video?: { src: string };
+  /** Muted screen recording, and the first frame shown while it loads. Without one the card stays a still. */
+  video?: { webm: string; mp4: string; poster: string };
   /** Live site, or the GitHub repo for design-engineering pieces. */
   href?: string;
+  /** Source code, shown as a GitHub icon beside the link. */
+  repo?: string;
 };
 
 export const projects: Project[] = [
   {
-    id: "p1",
-    kind: "website",
-    title: "[Project name]",
-    description: "[One line: what it is and who it was for.]",
-    stack: "[stack]",
-    tint: "tint-pink",
-  },
-  {
-    id: "p2",
-    kind: "design-engineering",
-    title: "[Experiment name]",
-    description: "[One line: the idea it explores.]",
-    stack: "[stack]",
-    tint: "tint-sage",
-  },
-  {
-    id: "p3",
+    id: "model-checker",
     kind: "app",
-    title: "[Project name]",
-    description: "[One line: what it is and who it was for.]",
-    stack: "[stack]",
-    tint: "tint-butter",
-  },
-  {
-    id: "p4",
-    kind: "design-engineering",
-    title: "[Experiment name]",
-    description: "[One line: the idea it explores.]",
-    stack: "[stack]",
+    title: "3D Model Load Checker",
+    description: "Checks whether a 3D model will load on a phone, tablet or desktop, right in the browser.",
+    stack: "C#, .NET, Blazor WebAssembly, xUnit, bUnit, GitHub Actions",
     tint: "tint-pink",
+    still: {
+      src: "/projects/model-checker/model-checker-still.webp",
+      alt: "3D Model Load Checker showing a chair model rated Ready on phone, tablet and desktop",
+    },
+    video: {
+      webm: "/projects/model-checker/model-checker-preview.webm",
+      mp4: "/projects/model-checker/model-checker-preview.mp4",
+      poster: "/projects/model-checker/model-checker-preview-poster.jpg",
+    },
+    href: "https://3d-model-checker.netlify.app/",
+    repo: "https://github.com/Meekaylah/model-load-checker",
   },
   {
-    id: "p5",
-    kind: "design-engineering",
-    title: "[Experiment name]",
-    description: "[One line: the idea it explores.]",
-    stack: "[stack]",
-    tint: "tint-butter",
-  },
-  {
-    id: "p6",
+    id: "movie-app",
     kind: "website",
-    title: "[Project name]",
-    description: "[One line: what it is and who it was for.]",
-    stack: "[stack]",
-    tint: "tint-sage",
+    title: "MovieBox",
+    description: "A movie discovery site with a rotating featured banner and live film data from TMDB.",
+    stack: "React, Vite, React Router, TMDB API",
+    tint: "tint-butter",
+    still: {
+      src: "/projects/movie-app/movie-app-still.webp",
+      alt: "MovieBox home page with a Spider-Man: Brand New Day banner and a search bar",
+    },
+    video: {
+      webm: "/projects/movie-app/movie-app-preview.webm",
+      mp4: "/projects/movie-app/movie-app-preview.mp4",
+      poster: "/projects/movie-app/movie-app-preview-poster.jpg",
+    },
+    href: "https://movie-discovery-webapp-six.vercel.app/",
+    repo: "https://github.com/Meekaylah/movie_discovery-webapp",
   },
 ];

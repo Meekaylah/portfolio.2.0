@@ -214,7 +214,7 @@ export function MessageDialog({ copy, email, className }: { copy: FormCopy; emai
                     </div>
 
                     {/* Hidden from people; bots that fill it in are ignored */}
-                    <div aria-hidden="true" className="absolute -left-[9999px] size-px overflow-hidden">
+                    <div aria-hidden="true" className="absolute left-[-9999px] size-px overflow-hidden">
                       <label htmlFor={`${id}-${honeypot}`}>Company</label>
                       <input id={`${id}-${honeypot}`} name={honeypot} tabIndex={-1} autoComplete="off" />
                     </div>

@@ -20,7 +20,7 @@ function Heading({ waiting = false }: { waiting?: boolean }) {
 /* No notes yet: a blank letter, waiting to be written. */
 function EmptyLetter() {
   return (
-    <Sheet aria-labelledby="blank-note" className="flex min-h-[380px] flex-col">
+    <Sheet aria-labelledby="blank-note" className="flex min-h-95 flex-col">
       <p id="blank-note" className="font-display text-[clamp(1.375rem,2.4vw,1.75rem)] leading-[1.3]">
         Dear Michaela,
       </p>

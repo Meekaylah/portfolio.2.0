@@ -77,7 +77,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[130px]">
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-32.5">
           <Plant className="absolute bottom-1.5 left-[12%] max-nav:hidden" />
           <MugAndBooks className="absolute right-[13%] bottom-1.5" />
           <GroundLine className="absolute bottom-0 left-0 block" />

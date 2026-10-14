@@ -1,15 +1,22 @@
 "use client";
 
 import { useReducedMotion } from "motion/react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 
 /* Only one preview plays at a time. */
 let stopPlaying: ((playing: boolean) => void) | null = null;
 
+/* Touch screens: nothing to hover with, so the Preview button does the job. */
+const noHover = "(hover: none)";
+function subscribe(onChange: () => void) {
+  const query = window.matchMedia(noHover);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
 type PreviewCardProps = {
   title: string;
-  video: string;
-  poster?: string;
+  video: { webm: string; mp4: string; poster: string };
   className?: string;
   mediaClassName?: string;
   /** The still, shown until a preview is asked for. */
@@ -19,21 +26,24 @@ type PreviewCardProps = {
 };
 
 /**
- * A project card whose still swaps for a muted, looping screen recording.
+ * A project card whose still fades to a muted, looping screen recording.
  * The <video> does not exist until someone hovers, focuses or taps Preview,
  * so nothing is downloaded before then. With reduced motion, hover and focus
  * do nothing and the Preview button is the only way to play.
  */
-export function PreviewCard({ title, video, poster, className, mediaClassName, still, children }: PreviewCardProps) {
+export function PreviewCard({ title, video, className, mediaClassName, still, children }: PreviewCardProps) {
   const reduced = useReducedMotion();
+  const touch = useSyncExternalStore(subscribe, () => window.matchMedia(noHover).matches, () => false);
+  const [asked, setAsked] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [duration, setDuration] = useState(6);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const line = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
 
   function start() {
     if (stopPlaying && stopPlaying !== setPlaying) stopPlaying(false);
     stopPlaying = setPlaying;
+    setAsked(true);
     setPlaying(true);
   }
   function stop() {
@@ -42,7 +52,24 @@ export function PreviewCard({ title, video, poster, className, mediaClassName, s
   }
 
   useEffect(() => {
-    if (playing) videoRef.current?.play().catch(() => {});
+    const element = videoRef.current;
+    if (!element) return;
+    if (!playing) {
+      element.pause();
+      element.currentTime = 0;
+      return;
+    }
+
+    element.currentTime = 0;
+    element.play().catch(() => {});
+
+    /* The pink line follows the video itself, so it waits while it buffers. */
+    let frame = requestAnimationFrame(function tick() {
+      const { currentTime, duration } = element;
+      if (line.current && duration > 0) line.current.style.transform = `scaleX(${currentTime / duration})`;
+      frame = requestAnimationFrame(tick);
+    });
+    return () => cancelAnimationFrame(frame);
   }, [playing]);
 
   return (
@@ -65,36 +92,39 @@ export function PreviewCard({ title, video, poster, className, mediaClassName, s
     >
       <div className={mediaClassName}>
         {still}
-        {playing && (
-          <>
+        {asked && (
+          <div
+            className={`absolute inset-0 transition-opacity duration-300 ease-soft motion-reduce:transition-none starting:opacity-0 ${playing ? "opacity-100" : "opacity-0"}`}
+          >
             <video
               ref={videoRef}
-              src={video}
-              poster={poster}
+              poster={video.poster}
               muted
               loop
               playsInline
               preload="none"
               tabIndex={-1}
-              aria-label={`Screen recording of ${title}`}
-              className="absolute inset-0 size-full object-cover"
-              onLoadedMetadata={(event) => {
-                const seconds = event.currentTarget.duration;
-                if (Number.isFinite(seconds) && seconds > 0) setDuration(seconds);
-              }}
-            />
-            <div
               aria-hidden="true"
-              className="absolute bottom-0 left-0 h-[3px] animate-progress bg-pink motion-reduce:w-2/5 motion-reduce:animate-none"
-              style={{ animationDuration: `${duration}s` }}
+              className="absolute inset-0 size-full object-cover"
+            >
+              <source src={video.webm} type="video/webm" />
+              <source src={video.mp4} type="video/mp4" />
+            </video>
+            <div
+              ref={line}
+              aria-hidden="true"
+              className="absolute bottom-0 left-0 h-0.75 w-full origin-left bg-pink"
+              style={{ transform: "scaleX(0)" }}
             />
-          </>
+          </div>
         )}
+        {/* Always rendered so server and browser markup match. Shown on touch
+            screens, and to everyone who asks for reduced motion. */}
         <button
           ref={button}
           type="button"
           aria-label={`${playing ? "Pause" : "Play"} preview of ${title}`}
-          className="btn-outline absolute right-3 bottom-3 hidden bg-paper text-caption motion-reduce:inline-flex [@media(hover:none)]:inline-flex"
+          className={`btn-outline absolute right-3 bottom-3 bg-paper text-caption motion-reduce:inline-flex ${touch ? "inline-flex" : "hidden"}`}
           onClick={() => (playing ? stop() : start())}
         >
           {playing ? "Pause" : "▶ Preview"}
