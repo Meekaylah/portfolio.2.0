@@ -27,7 +27,10 @@ describe("Kind words", () => {
     it("shows a blank letter when there are no notes", () => {
         renderWords([]);
         expect(screen.getByText("Dear Michaela,")).toBeInTheDocument();
-        expect(screen.getByRole("link", { name: "Write me a note" })).toHaveAttribute("href", "#contact");
+        const link = screen.getByRole("link", { name: "Write me a note" });
+        expect(link).toHaveAttribute("href", "https://www.linkedin.com/in/michaela-usanga/edit/forms/recommendation/write");
+        expect(link).toHaveAttribute("target", "_blank");
+        expect(link).toHaveAttribute("rel", "noopener noreferrer");
         expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
     });
 

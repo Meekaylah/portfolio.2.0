@@ -4,7 +4,9 @@ import { Header } from "@/components/sections/Header";
 import { Help } from "@/components/sections/Help";
 import { Hero } from "@/components/sections/Hero";
 import { KindWords } from "@/components/sections/KindWords";
+import { MessageDialog } from "@/components/sections/MessageDialog";
 import { Work } from "@/components/sections/Work";
+import { site } from "@/content/site";
 
 export default function Home() {
   return (
@@ -18,6 +20,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <MessageDialog copy={site.contact.form} email={site.email} />
     </>
   );
 }

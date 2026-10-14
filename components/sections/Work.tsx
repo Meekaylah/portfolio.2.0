@@ -47,6 +47,8 @@ function ProjectCard({ project }: { project: Project }) {
         {project.repo && (
           <a
             href={project.repo}
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label={`Code for ${project.title} on GitHub`}
             className="inline-flex size-11 items-center justify-center transition-colors duration-150 ease-soft hover:text-rose"
           >
@@ -55,7 +57,7 @@ function ProjectCard({ project }: { project: Project }) {
             </svg>
           </a>
         )}
-        <MaybeLink href={project.href ?? null} className="link-mark inline-flex min-h-11 items-center">
+        <MaybeLink href={project.href ?? null} target="_blank" rel="noopener noreferrer" className="link-mark inline-flex min-h-11 items-center">
           {project.kind === "design-engineering" ? "See it on GitHub →" : "View project →"}
         </MaybeLink>
       </div>

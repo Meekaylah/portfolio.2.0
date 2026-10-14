@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore, type FormEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { honeypot, validateContact, type ContactErrors, type ContactField } from "@/lib/contact";
 import type { SiteContent } from "@/content/site";
@@ -12,18 +12,44 @@ const field =
   "min-h-11 w-full rounded-button border-[1.5px] bg-paper px-3.5 py-2.5 text-body text-ink transition-colors duration-150 placeholder:text-ink-muted focus-visible:border-ink";
 const order: ContactField[] = ["name", "email", "message"];
 
+/* There is one dialog on the page and every MessageButton opens it, so a
+   half-written message is still there whichever button brings you back. */
+let showDialog: (() => void) | null = null;
+let dialogOpen = false;
+const listeners = new Set<() => void>();
+function setDialogOpen(open: boolean) {
+  dialogOpen = open;
+  listeners.forEach((listener) => listener());
+}
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
 /**
- * "Leave a message": a link-style button in the closing sentence that opens
- * a native modal dialog with a short form. The dialog traps focus, closes on
- * Esc and returns focus to the button. It is portalled to <body> because the
- * trigger sits inside a sentence, and a <p> can't contain a form.
+ * Opens the "Leave a message" dialog. In the closing sentence it is styled
+ * as a link; "Say hello" and "Tell me about your project" are solid buttons.
  */
-export function MessageDialog({ copy, email, className }: { copy: FormCopy; email: string | null; className?: string }) {
+export function MessageButton({ className, children = "leave a message" }: { className?: string; children?: ReactNode }) {
+  const open = useSyncExternalStore(subscribe, () => dialogOpen, () => false);
+  return (
+    <button type="button" aria-haspopup="dialog" aria-expanded={open} className={`${className} cursor-pointer`} onClick={() => showDialog?.()}>
+      {children}
+    </button>
+  );
+}
+
+/**
+ * "Leave a message": a native modal dialog with a short form, rendered once
+ * for the whole page. It traps focus, closes on Esc and returns focus to the
+ * button that opened it. It is portalled to <body> so it sits outside every
+ * section.
+ */
+export function MessageDialog({ copy, email }: { copy: FormCopy; email: string | null }) {
   const id = useId();
   const dialog = useRef<HTMLDialogElement>(null);
   const form = useRef<HTMLFormElement>(null);
   const sentHeading = useRef<HTMLHeadingElement>(null);
-  const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<ContactErrors>({});
   const [reason, setReason] = useState("");
@@ -34,6 +60,17 @@ export function MessageDialog({ copy, email, className }: { copy: FormCopy; emai
   );
 
   const messageLabel = copy.reasons.find((r) => r.value === reason)?.messageLabel ?? copy.defaultMessageLabel;
+
+  useEffect(() => {
+    showDialog = () => {
+      setStatus((current) => (current === "sent" || current === "error" ? "idle" : current));
+      dialog.current?.showModal();
+      setDialogOpen(true);
+    };
+    return () => {
+      showDialog = null;
+    };
+  }, []);
 
   function close() {
     dialog.current?.close();
@@ -89,27 +126,13 @@ export function MessageDialog({ copy, email, className }: { copy: FormCopy; emai
 
   return (
     <>
-      <button
-        type="button"
-        aria-haspopup="dialog"
-        aria-expanded={open}
-        className={className}
-        onClick={() => {
-          if (status === "sent" || status === "error") setStatus("idle");
-          dialog.current?.showModal();
-          setOpen(true);
-        }}
-      >
-        leave a message
-      </button>
-
       {inBrowser &&
         createPortal(
           <dialog
             ref={dialog}
             aria-labelledby={`${id}-title`}
             className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-media border border-line bg-paper-raised p-0 text-left text-ink backdrop:bg-ink/60"
-            onClose={() => setOpen(false)}
+            onClose={() => setDialogOpen(false)}
             onClick={(event) => {
               if (event.target === event.currentTarget) close();
             }}

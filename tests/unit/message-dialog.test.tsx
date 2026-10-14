@@ -1,12 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import { MessageDialog } from "@/components/sections/MessageDialog";
+import { MessageButton, MessageDialog } from "@/components/sections/MessageDialog";
 import { site } from "@/content/site";
 
 function setup() {
     const user = userEvent.setup();
-    render(<MessageDialog copy={site.contact.form} email="ada@example.com" />);
+    render(
+        <>
+            <MessageButton />
+            <MessageDialog copy={site.contact.form} email="ada@example.com" />
+        </>,
+    );
     return user;
 }
 
@@ -54,5 +59,23 @@ describe("Message dialog", () => {
 
         expect(await screen.findByRole("alert")).toHaveTextContent(/didn't send/);
         expect(screen.getByRole("link", { name: "ada@example.com" })).toBeInTheDocument();
+    })
+
+    it("keeps a half-written message whichever button opens it", async () => {
+        const user = userEvent.setup();
+        render(
+            <>
+                <MessageButton>Say hello</MessageButton>
+                <MessageButton>Tell me about your project</MessageButton>
+                <MessageDialog copy={site.contact.form} email="ada@example.com" />
+            </>,
+        );
+        await user.click(screen.getByRole("button", { name: "Say hello" }));
+        await user.type(screen.getByLabelText("Name"), "Ada");
+        await user.click(screen.getByRole("button", { name: "Close" }));
+
+        await user.click(screen.getByRole("button", { name: "Tell me about your project" }));
+        expect(screen.getAllByRole("dialog")).toHaveLength(1);
+        expect(screen.getByLabelText("Name")).toHaveValue("Ada");
     })
 })

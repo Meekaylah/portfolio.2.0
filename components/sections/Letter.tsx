@@ -9,10 +9,10 @@ export function Sheet({
 }: { className?: string; children: ReactNode } & React.ComponentProps<"article">) {
   return (
     <article
-      className={`relative -rotate-[1.2deg] border border-line paper-ruled px-[clamp(24px,5vw,64px)] pt-13 pb-11 max-stack:rotate-0 ${className}`}
+      className={`relative rotate-[-1.2deg] border border-line paper-ruled px-[clamp(24px,5vw,64px)] pt-13 pb-11 max-stack:rotate-0 ${className}`}
       {...props}
     >
-      <svg aria-hidden="true" focusable="false" width={34} height={76} viewBox="0 0 34 76" className="absolute -top-[22px] left-12">
+      <svg aria-hidden="true" focusable="false" width={34} height={76} viewBox="0 0 34 76" className="absolute -top-5.5 left-12">
         <path d="M10 52 L10 14 C10 6 24 6 24 14 L24 60 C24 70 6 70 6 60 L6 22" className="fill-none stroke-pink" strokeWidth={2.6} strokeLinecap="round" />
       </svg>
       {children}
@@ -25,7 +25,7 @@ export function BackSheet() {
   return (
     <div
       aria-hidden="true"
-      className="absolute top-[34px] -right-1.5 -bottom-2.5 left-[30px] rotate-2 border border-line bg-paper-deep max-stack:hidden"
+      className="absolute top-8.5 -right-1.5 -bottom-2.5 left-7.5 rotate-2 border border-line bg-paper-deep max-stack:hidden"
     />
   );
 }
@@ -44,7 +44,7 @@ export function NoteBody({ note }: { note: Note }) {
           <p className="text-caption text-ink-soft">{note.role}</p>
         </div>
         {note.link && (
-          <a href={note.link.href} className="link-mark inline-flex min-h-11 items-center text-caption">
+          <a href={note.link.href} target="_blank" rel="noopener noreferrer" className="link-mark inline-flex min-h-11 items-center text-caption">
             {note.link.label}
           </a>
         )}
@@ -57,7 +57,7 @@ export function LoveANote() {
   return (
     <p className="mt-6 text-small text-ink-soft">
       Worked with me?{" "}
-      <a href="#contact" className="link-mark inline-flex min-h-11 items-center text-ink">
+      <a href="https://www.linkedin.com/in/michaela-usanga/edit/forms/recommendation/write" target="_blank" rel="noopener noreferrer" className="link-mark inline-flex min-h-11 items-center text-ink">
         I&apos;d love a note
       </a>
     </p>

@@ -62,13 +62,13 @@ export const site: SiteContent = {
     location: "Cambridge, United Kingdom",
   },
   email: "michaelausangaa@gmail.com",
-  links: { cv: null, github: "https://github.com/Meekaylah", linkedin: null, bookCall: null },
+  links: { cv: "https://docs.google.com/document/d/10k_5fUc7ayi0R4zU3oCyTIUMA9uQ9t_kFpjbTtsm-JE/edit?usp=sharing", github: "https://github.com/Meekaylah", linkedin: "https://www.linkedin.com/in/michaela-usanga/", bookCall: "https://calendar.app.google/dHSEcLa4oybsQrjUA" },
   help: {
     title: "How I can help",
     note: "pick whichever sounds like you",
     teams: {
       eyebrow: "For teams",
-      title: "Hiring a frontend engineer?",
+      title: "Hiring a software engineer?",
       body: "[A sentence or two, in your words, on the kind of team and work you're looking for.]",
       points: [
         "Interfaces in React, Next.js and TypeScript, styled with Tailwind",
@@ -88,8 +88,8 @@ export const site: SiteContent = {
     },
   },
   contact: {
-    headline: "The kettle's on. Come and say hello.",
-    labels: ["Interfaces", "Websites", "Design systems", "React & Next.js", "Design engineering"],
+    headline: "Let's start with hello, world.",
+    labels: ["Interfaces", "Accessibility", "Design systems", "Fullstack Development", "Software engineering"],
     body: "Hiring, planning a website, or just curious about something you saw here? I'd love to hear from you.",
     form: {
       title: "Leave a message",
@@ -103,5 +103,5 @@ export const site: SiteContent = {
       sent: "Thank you, your message is on its way. I'll reply as soon as I can.",
     },
   },
-  footer: { location: "London" },
+  footer: { location: "United Kingdom" },
 };

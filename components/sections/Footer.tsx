@@ -2,7 +2,7 @@ import { MaybeLink } from "@/components/ui/MaybeLink";
 import { Wordmark } from "@/components/ui/Wordmark";
 import { site } from "@/content/site";
 
-type FooterLink = { label: string; href: string | null };
+type FooterLink = { label: string; href: string | null; external?: boolean };
 
 function Column({ title, links }: { title: string; links: FooterLink[] }) {
   const id = `footer-${title.toLowerCase()}`;
@@ -16,6 +16,8 @@ function Column({ title, links }: { title: string; links: FooterLink[] }) {
           <li key={link.label}>
             <MaybeLink
               href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               className="flex min-h-11 items-center text-on-ink-muted transition-colors duration-150 hover:text-on-ink"
             >
               {link.label}
@@ -35,7 +37,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-page grid-cols-[minmax(0,1fr)_auto] items-end gap-10 max-stack:grid-cols-1">
         <div className="flex flex-col gap-3.5">
           <a
-            href="#"
+            href="/"
             aria-label="michaela.dev, back to top"
             className="self-start text-on-ink-display transition-colors duration-150 hover:text-on-ink"
           >
@@ -56,9 +58,9 @@ export function Footer() {
             title="Connect"
             links={[
               { label: "Send an email", href: email ? `mailto:${email}` : null },
-              { label: "Book a call", href: links.bookCall },
-              { label: "LinkedIn", href: links.linkedin },
-              { label: "GitHub", href: links.github },
+              { label: "Book a call", href: links.bookCall, external: true },
+              { label: "LinkedIn", href: links.linkedin, external: true },
+              { label: "GitHub", href: links.github, external: true },
             ]}
           />
           <Column
@@ -67,7 +69,7 @@ export function Footer() {
               { label: "Work", href: "#work" },
               { label: "How I can help", href: "#help" },
               { label: "Kind words", href: "#words" },
-              { label: "CV", href: links.cv },
+              { label: "CV", href: links.cv, external: true },
             ]}
           />
         </div>

@@ -12,6 +12,7 @@ import { Squiggle } from "@/components/doodles/Squiggle";
 import { TextReveal } from "@/components/ui/TextReveal";
 import { site } from "@/content/site";
 import { headline, revealDuration } from "@/lib/motion";
+import { MessageButton } from "./MessageDialog";
 import { PulseDot } from "./PulseDot";
 
 const dot = {
@@ -57,9 +58,7 @@ export function Hero() {
         </h1>
 
         <div className="relative mt-10 flex flex-wrap items-center justify-center gap-5">
-          <a href="#contact" className="btn">
-            {hero.cta}
-          </a>
+          <MessageButton className="btn">{hero.cta}</MessageButton>
           <div className="text-left text-small leading-[1.35]">
             <ul>
               {hero.availability.map((line) => (

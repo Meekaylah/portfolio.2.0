@@ -35,7 +35,7 @@ function EmptyLetter() {
             If we&apos;ve worked together, I&apos;d love to hear how it went. A couple of sentences is plenty.
           </p>
         </div>
-        <a href="#contact" className="btn">
+        <a href="https://www.linkedin.com/in/michaela-usanga/edit/forms/recommendation/write" target="_blank" rel="noopener noreferrer" className="btn">
           Write me a note
         </a>
       </div>

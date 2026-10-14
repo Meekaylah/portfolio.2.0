@@ -10,7 +10,7 @@ const left: MenuLink[] = [
 ];
 const right: MenuLink[] = [
   { label: "Kind words", href: "#words" },
-  { label: "CV", href: site.links.cv },
+  { label: "Contact me", href: "#contact" },
 ];
 
 function SideNav({ label, links, className }: { label: string; links: MenuLink[]; className?: string }) {
@@ -20,6 +20,8 @@ function SideNav({ label, links, className }: { label: string; links: MenuLink[]
         <MaybeLink
           key={link.label}
           href={link.href}
+          target={link.external ? "_blank" : undefined}
+          rel={link.external ? "noopener noreferrer" : undefined}
           className="group inline-flex min-h-11 items-center"
         >
           {/* A crooked petal highlight sweeps in from the left on hover or keyboard focus */}

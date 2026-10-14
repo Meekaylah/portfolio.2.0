@@ -1,10 +1,11 @@
 import { FloatIn } from "@/components/ui/FloatIn";
 import { MaybeLink } from "@/components/ui/MaybeLink";
 import { site } from "@/content/site";
+import { MessageButton } from "./MessageDialog";
 
 function Tick() {
   return (
-    <svg aria-hidden="true" focusable="false" width={18} height={18} viewBox="0 0 18 18" className="mt-[3px] flex-none">
+    <svg aria-hidden="true" focusable="false" width={18} height={18} viewBox="0 0 18 18" className="mt-0.75 flex-none">
       <path d="M2 9 L7 14 L16 3" className="fill-none stroke-pink" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -46,13 +47,13 @@ export function Help() {
               ))}
             </ul>
             <div className="mt-3.5 flex flex-wrap items-center gap-5">
-              <MaybeLink href={links.cv} className="btn">
+              <MaybeLink href={links.cv} target="_blank" rel="noopener noreferrer" className="btn">
                 {help.teams.cta}
               </MaybeLink>
-              <MaybeLink href={links.github} className={textLink}>
+              <MaybeLink href={links.github} target="_blank" rel="noopener noreferrer" className={textLink}>
                 GitHub
               </MaybeLink>
-              <MaybeLink href={links.linkedin} className={textLink}>
+              <MaybeLink href={links.linkedin} target="_blank" rel="noopener noreferrer" className={textLink}>
                 LinkedIn
               </MaybeLink>
             </div>
@@ -60,7 +61,7 @@ export function Help() {
 
           {/* Hand-drawn divider: upright between the halves, flat once they stack */}
           <div aria-hidden="true" className="flex justify-center max-stack:hidden">
-            <svg width={20} height="100%" viewBox="0 0 20 400" preserveAspectRatio="none" focusable="false" className="min-h-[380px]">
+            <svg width={20} height="100%" viewBox="0 0 20 400" preserveAspectRatio="none" focusable="false" className="min-h-95">
               <path d="M10 4 C 4 60, 16 120, 10 180 C 4 240, 16 300, 10 396" className="fill-none stroke-ink" strokeWidth={2} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
             </svg>
           </div>
@@ -79,9 +80,7 @@ export function Help() {
               </p>
             ))}
             <div className="mt-3.5 flex flex-wrap items-center gap-5">
-              <a href="#contact" className="btn">
-                {help.clients.cta}
-              </a>
+              <MessageButton className="btn">{help.clients.cta}</MessageButton>
               <svg aria-hidden="true" focusable="false" width={72} height={50} viewBox="0 0 100 70">
                 <path d="M6 34 L94 6 L58 64 L44 42 Z" className="fill-paper-raised stroke-ink" strokeWidth={2.8} strokeLinejoin="round" />
                 <path d="M44 42 L94 6" className="fill-none stroke-ink" strokeWidth={2.8} strokeLinecap="round" />
