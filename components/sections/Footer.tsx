@@ -42,7 +42,7 @@ export function Footer() {
             className="self-start text-on-ink-display transition-colors duration-150 hover:text-on-ink"
           >
             <Wordmark
-              className="text-[clamp(3rem,6vw,4.5rem)] leading-none"
+              className="text-[clamp(3rem,6vw,4.5rem)] leading-none max-[22.5rem]:text-[2.5rem]"
               underlineClassName="mt-0.5 text-on-ink-accent"
               underlineWidth={150}
               underlineHeight={16}

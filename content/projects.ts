@@ -1,6 +1,6 @@
 import type { StaticImageData } from "next/image";
 
-export type ProjectKind = "website" | "app" | "design-engineering";
+export type ProjectKind = "website" | "app" | "design-engineering" | "webapp";
 
 export type Project = {
   id: string;
@@ -24,7 +24,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     id: "model-checker",
-    kind: "app",
+    kind: "webapp",
     title: "3D Model Load Checker",
     description: "Checks whether a 3D model will load on a phone, tablet or desktop, right in the browser.",
     stack: "C#, .NET, Blazor WebAssembly, xUnit, bUnit, GitHub Actions",

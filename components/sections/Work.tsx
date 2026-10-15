@@ -8,6 +8,7 @@ import { ScrollButtons } from "./ScrollButtons";
 const kindLabel: Record<ProjectKind, string> = {
   website: "Website",
   app: "App",
+  webapp: "Web App",
   "design-engineering": "Design engineering",
 };
 

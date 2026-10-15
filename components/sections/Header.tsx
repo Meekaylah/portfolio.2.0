@@ -15,14 +15,14 @@ const right: MenuLink[] = [
 
 function SideNav({ label, links, className }: { label: string; links: MenuLink[]; className?: string }) {
   return (
-    <nav aria-label={label} className={`flex gap-10 max-nav:hidden ${className ?? ""}`}>
+    <nav aria-label={label} className={`flex gap-[clamp(1.5rem,3vw,2.5rem)] max-nav:hidden ${className ?? ""}`}>
       {links.map((link) => (
         <MaybeLink
           key={link.label}
           href={link.href}
           target={link.external ? "_blank" : undefined}
           rel={link.external ? "noopener noreferrer" : undefined}
-          className="group inline-flex min-h-11 items-center"
+          className="group inline-flex min-h-11 items-center whitespace-nowrap"
         >
           {/* A crooked petal highlight sweeps in from the left on hover or keyboard focus */}
           <span className="relative">
@@ -46,9 +46,9 @@ export function Header() {
         <Link
           href="/"
           aria-label="michaela.dev, home"
-          className="col-start-2 px-7 transition-colors duration-150 hover:text-rose"
+          className="col-start-2 px-[clamp(0.5rem,2vw,1.75rem)] transition-colors duration-150 hover:text-rose"
         >
-          <Wordmark className="items-center text-[2rem]" underlineClassName="-mt-[8px] text-pink" />
+          <Wordmark className="items-center text-[clamp(1.5rem,2.6vw,2rem)]" underlineClassName="-mt-[8px] text-pink" />
         </Link>
         <SideNav label="Primary, right" links={right} />
         <div className="col-start-3 hidden justify-end max-nav:flex">

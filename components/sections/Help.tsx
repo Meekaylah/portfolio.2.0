@@ -25,11 +25,28 @@ export function Help() {
           <h2 id="help-title" className="text-h2">
             {help.title}
           </h2>
-          <div aria-hidden="true" className="flex items-center gap-2 font-display text-small text-rose-deep">
-            <svg width={34} height={18} viewBox="0 0 34 18" focusable="false">
-              <path d="M32 9 C 22 4, 12 14, 3 8 M9 3 L3 8 L9 14" className="fill-none stroke-pink" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+          <div aria-hidden="true" className="inline-flex items-center gap-1.5 font-display text-small text-rose-deep">
             <span>{help.note}</span>
+            <svg
+              width={26}
+              height={20}
+              viewBox="0 0 64 50"
+              focusable="false"
+              className="flex-none overflow-visible stroke-pink"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path strokeWidth={1.9} d="M24.5 6 C 25.5 15, 28 19, 39 21.5 C 29.5 23.5, 26 27, 23.5 38.5 C 22 28.5, 18.5 24.5, 9 22.5 C 17.5 20.5, 22.5 16, 24.2 5.2" />
+              <path strokeWidth={1.7} d="M8 33 C 8.6 37, 10 39, 14 40 C 10.2 41, 8.8 42.5, 7.6 47 C 7 43, 5.5 41.3, 2 40.3 C 5.5 39.2, 7.2 37.3, 8.3 32.6" />
+              <path strokeWidth={1.6} d="M44 26 C 45 28, 46 29, 47.6 30 C 46 31, 45 32.4, 44.1 34 C 43.3 32.3, 42.3 31, 40.7 29.9 C 42.3 29, 43.3 27.8, 44.2 25.6" />
+              <path strokeWidth={1.6} d="M52 4 L52.3 14 M47 9.2 L57 8.8" />
+              <path strokeWidth={1.5} d="M34 38.5 L34.2 45.5 M30.6 42 L37.6 41.8" />
+              <circle cx="12" cy="10" r="1.3" className="fill-pink" stroke="none" />
+              <circle cx="59" cy="20" r="1.1" className="fill-pink" stroke="none" />
+              <circle cx="3.5" cy="27" r="0.9" className="fill-pink" stroke="none" />
+              <circle cx="50" cy="44" r="1" className="fill-pink" stroke="none" />
+            </svg>
           </div>
         </FloatIn>
 
@@ -50,12 +67,15 @@ export function Help() {
               <MaybeLink href={links.cv} target="_blank" rel="noopener noreferrer" className="btn">
                 {help.teams.cta}
               </MaybeLink>
-              <MaybeLink href={links.github} target="_blank" rel="noopener noreferrer" className={textLink}>
-                GitHub
-              </MaybeLink>
-              <MaybeLink href={links.linkedin} target="_blank" rel="noopener noreferrer" className={textLink}>
-                LinkedIn
-              </MaybeLink>
+              {/* Kept together, so they wrap below the button as a pair */}
+              <div className="flex gap-5">
+                <MaybeLink href={links.github} target="_blank" rel="noopener noreferrer" className={textLink}>
+                  GitHub
+                </MaybeLink>
+                <MaybeLink href={links.linkedin} target="_blank" rel="noopener noreferrer" className={textLink}>
+                  LinkedIn
+                </MaybeLink>
+              </div>
             </div>
           </div>
 

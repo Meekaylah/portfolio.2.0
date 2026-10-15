@@ -25,7 +25,7 @@ export type SiteContent = {
     title: string;
     note: string;
     teams: { eyebrow: string; title: string; body: string; points: string[]; cta: string };
-    clients: { eyebrow: string; title: string; body: string[]; cta: string };
+    clients: { eyebrow: string; title: string; body: string[]; points: string[]; cta: string };
   };
   contact: {
     headline: string;
@@ -69,20 +69,27 @@ export const site: SiteContent = {
     teams: {
       eyebrow: "For teams",
       title: "Hiring a software engineer?",
-      body: "[A sentence or two, in your words, on the kind of team and work you're looking for.]",
+      body: "I’m an engineer who looks at the whole picture: what the user sees, what the code does, and why it matters. Here’s what you’d get:",
       points: [
-        "Interfaces in React, Next.js and TypeScript, styled with Tailwind",
-        "Shared components and colour tokens that keep a product consistent",
-        "Reworking confusing screens so people actually use them",
+        "Features built end to end, with consistency all the way through",
+        "Screens and features reworked until people actually want to use them",
+        "New languages and tools, picked up fast when needed",
+        "Building AI features, and building faster with AI tools"
       ],
       cta: "Read my CV",
     },
     clients: {
-      eyebrow: "For clients",
-      title: "Need a website?",
+      eyebrow: "For projects",
+      title: "Building a product?",
       body: [
-        "[Who you build for and what kind of sites, e.g. a first site for a small business, or a refresh of one that's stopped working for you.]",
-        "Tell me a little about it and I'll reply with whether I'm the right fit and what I'd suggest.",
+        "Whether it’s a brand-new idea, a product that needs its next feature, a landing page that turns visitors into users, or an internal tool that takes the busywork off your team, I’ll help you get it built and in front of real people, fast.",
+        "Whatever you have in mind, I’d love to hear about it",
+      ],
+      points: [
+        "MVPs built quickly, so you can test the idea with real people",
+        "AI features that actually help your users, not just look clever",
+        "Landing pages and copy that turn visitors into users",
+        "Internal tools that take the busywork off your team"
       ],
       cta: "Tell me about your project",
     },
@@ -90,7 +97,7 @@ export const site: SiteContent = {
   contact: {
     headline: "Let's start with hello, world.",
     labels: ["Interfaces", "Accessibility", "Design systems", "Fullstack Development", "Software engineering"],
-    body: "Hiring, planning a website, or just curious about something you saw here? I'd love to hear from you.",
+    body: "This is the part where you say hello 👋. Tell me about the role, the idea, or that bug that’s been bugging you 👾.",
     form: {
       title: "Leave a message",
       intro: "A few lines is plenty. I'll reply by email.",

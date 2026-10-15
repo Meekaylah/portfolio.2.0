@@ -30,7 +30,7 @@ function subscribe(listener: () => void) {
  * Opens the "Leave a message" dialog. In the closing sentence it is styled
  * as a link; "Say hello" and "Tell me about your project" are solid buttons.
  */
-export function MessageButton({ className, children = "leave a message" }: { className?: string; children?: ReactNode }) {
+export function MessageButton({ className, children = "leave me a message" }: { className?: string; children?: ReactNode }) {
   const open = useSyncExternalStore(subscribe, () => dialogOpen, () => false);
   return (
     <button type="button" aria-haspopup="dialog" aria-expanded={open} className={`${className} cursor-pointer`} onClick={() => showDialog?.()}>
