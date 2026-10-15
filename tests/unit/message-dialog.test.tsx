@@ -18,7 +18,7 @@ function setup() {
 describe("Message dialog", () => {
     it("explains what's missing and focuses the first problem", async () => {
         const user = setup();
-        await user.click(screen.getByRole("button", { name: "leave a message" }));
+        await user.click(screen.getByRole("button", { name: "leave me a message" }));
         await user.click(screen.getByRole("button", { name: "Send" }));
 
         expect(screen.getByText("Please tell me your name.")).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe("Message dialog", () => {
 
     it("changes the message label with the I'm... choice", async () => {
         const user = setup();
-        await user.click(screen.getByRole("button", { name: "leave a message" }));
+        await user.click(screen.getByRole("button", { name: "leave me a message" }));
         await user.click(screen.getByLabelText("Hiring"));
         expect(screen.getByLabelText("Tell me about the role")).toBeInTheDocument();
     });
@@ -37,7 +37,7 @@ describe("Message dialog", () => {
         //Pretend the server said OK: the test shouldn't send real email.
         const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(Response.json({ ok: true}));
         const user = setup();
-        await user.click(screen.getByRole("button", { name: "leave a message" }));
+        await user.click(screen.getByRole("button", { name: "leave me a message" }));
         await user.type(screen.getByLabelText("Name"), "Ada");
         await user.type(screen.getByLabelText("Email"), "ada@example.com");
         await user.type(screen.getByLabelText("Your message"), "Hello!");
@@ -51,7 +51,7 @@ describe("Message dialog", () => {
         //Pretend the server said no: the test shouldn't send real email.
         vi.spyOn(globalThis, "fetch").mockResolvedValue(Response.json({}, { status: 500}));
         const user = setup();
-        await user.click(screen.getByRole("button", { name: "leave a message" }));
+        await user.click(screen.getByRole("button", { name: "leave me a message" }));
         await user.type(screen.getByLabelText("Name"), "Ada");
         await user.type(screen.getByLabelText("Email"), "ada@example.com");
         await user.type(screen.getByLabelText("Your message"), "Hello!");
