@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, useSyncExternalStore, type FormEvent, type ReactNode } from "react";
-import { createPortal } from "react-dom";
 import { honeypot, validateContact, type ContactErrors, type ContactField } from "@/lib/contact";
 import type { SiteContent } from "@/content/site";
 
@@ -33,7 +32,7 @@ function subscribe(listener: () => void) {
 export function MessageButton({ className, children = "leave me a message" }: { className?: string; children?: ReactNode }) {
   const open = useSyncExternalStore(subscribe, () => dialogOpen, () => false);
   return (
-    <button type="button" aria-haspopup="dialog" aria-expanded={open} className={`${className} cursor-pointer`} onClick={() => showDialog?.()}>
+    <button type="button" aria-haspopup="dialog" aria-expanded={open} className={className} onClick={() => showDialog?.()}>
       {children}
     </button>
   );
@@ -42,10 +41,9 @@ export function MessageButton({ className, children = "leave me a message" }: { 
 /**
  * "Leave a message": a native modal dialog with a short form, rendered once
  * for the whole page. It traps focus, closes on Esc and returns focus to the
- * button that opened it. It is portalled to <body> so it sits outside every
- * section.
+ * button that opened it.
  */
-export function MessageDialog({ copy, email }: { copy: FormCopy; email: string | null }) {
+export function MessageDialog({ copy, email }: { copy: FormCopy; email: string }) {
   const id = useId();
   const dialog = useRef<HTMLDialogElement>(null);
   const form = useRef<HTMLFormElement>(null);
@@ -53,11 +51,6 @@ export function MessageDialog({ copy, email }: { copy: FormCopy; email: string |
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<ContactErrors>({});
   const [reason, setReason] = useState("");
-  const inBrowser = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
 
   const messageLabel = copy.reasons.find((r) => r.value === reason)?.messageLabel ?? copy.defaultMessageLabel;
 
@@ -125,153 +118,142 @@ export function MessageDialog({ copy, email }: { copy: FormCopy; email: string |
   const border = (name: ContactField) => (errors[name] ? "border-rose" : "border-line");
 
   return (
-    <>
-      {inBrowser &&
-        createPortal(
-          <dialog
-            ref={dialog}
-            aria-labelledby={`${id}-title`}
-            className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-media border border-line bg-paper-raised p-0 text-left text-ink backdrop:bg-ink/60"
-            onClose={() => setDialogOpen(false)}
-            onClick={(event) => {
-              if (event.target === event.currentTarget) close();
-            }}
-          >
-            <div className="p-6 sm:p-8">
-              <div className="flex items-start justify-between gap-4">
-                <h2 id={`${id}-title`} className="text-h3">
-                  {copy.title}
-                </h2>
-                <button type="button" className="btn-outline" onClick={close}>
-                  Close
-                </button>
+    <dialog
+      ref={dialog}
+      aria-labelledby={`${id}-title`}
+      className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-media border border-line bg-paper-raised p-0 text-left text-ink backdrop:bg-ink/60"
+      onClose={() => setDialogOpen(false)}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) close();
+      }}
+    >
+      <div className="p-6 sm:p-8">
+        <div className="flex items-start justify-between gap-4">
+          <h2 id={`${id}-title`} className="text-h3">
+            {copy.title}
+          </h2>
+          <button type="button" className="btn-outline" onClick={close}>
+            Close
+          </button>
+        </div>
+
+        {status === "sent" ? (
+          <div className="mt-4">
+            <h3 ref={sentHeading} tabIndex={-1} className="text-title">
+              Sent.
+            </h3>
+            <p className="mt-2 text-body text-ink-soft" role="status">
+              {copy.sent}
+            </p>
+            <button type="button" className="btn mt-6" onClick={close}>
+              Done
+            </button>
+          </div>
+        ) : (
+          <form ref={form} noValidate className="mt-2" onSubmit={submit}>
+            <p className="text-small text-ink-soft">{copy.intro}</p>
+
+            <div className="mt-5 flex flex-col gap-4">
+              <div>
+                <label htmlFor={`${id}-name`} className="text-small font-medium">
+                  Name
+                </label>
+                <input
+                  id={`${id}-name`}
+                  name="name"
+                  autoComplete="name"
+                  autoFocus
+                  required
+                  aria-invalid={!!errors.name}
+                  aria-describedby={describedBy("name")}
+                  className={`mt-1.5 ${field} ${border("name")}`}
+                />
+                {errorText("name")}
               </div>
 
-              {status === "sent" ? (
-                <div className="mt-4">
-                  <h3 ref={sentHeading} tabIndex={-1} className="text-title">
-                    Sent.
-                  </h3>
-                  <p className="mt-2 text-body text-ink-soft" role="status">
-                    {copy.sent}
-                  </p>
-                  <button type="button" className="btn mt-6" onClick={close}>
-                    Done
-                  </button>
+              <div>
+                <label htmlFor={`${id}-email`} className="text-small font-medium">
+                  Email
+                </label>
+                <input
+                  id={`${id}-email`}
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  aria-invalid={!!errors.email}
+                  aria-describedby={describedBy("email")}
+                  className={`mt-1.5 ${field} ${border("email")}`}
+                />
+                {errorText("email")}
+              </div>
+
+              <fieldset>
+                <legend className="text-small font-medium">I&apos;m…</legend>
+                <div className="mt-1.5 flex flex-wrap gap-2">
+                  {copy.reasons.map((option) => (
+                    <label
+                      key={option.value}
+                      className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-button border-[1.5px] border-line bg-paper px-3.5 text-small transition-colors duration-150 hover:border-ink has-checked:border-ink has-checked:bg-blush has-focus-visible:outline-2 has-focus-visible:outline-offset-4 has-focus-visible:outline-pink"
+                    >
+                      <input
+                        type="radio"
+                        name="reason"
+                        value={option.value}
+                        checked={reason === option.value}
+                        onChange={() => setReason(option.value)}
+                        className="size-3.5 accent-ink"
+                      />
+                      {option.label}
+                    </label>
+                  ))}
                 </div>
-              ) : (
-                <form ref={form} noValidate className="mt-2" onSubmit={submit}>
-                  <p className="text-small text-ink-soft">{copy.intro}</p>
+              </fieldset>
 
-                  <div className="mt-5 flex flex-col gap-4">
-                    <div>
-                      <label htmlFor={`${id}-name`} className="text-small font-medium">
-                        Name
-                      </label>
-                      <input
-                        id={`${id}-name`}
-                        name="name"
-                        autoComplete="name"
-                        autoFocus
-                        required
-                        aria-invalid={!!errors.name}
-                        aria-describedby={describedBy("name")}
-                        className={`mt-1.5 ${field} ${border("name")}`}
-                      />
-                      {errorText("name")}
-                    </div>
+              <div>
+                <label htmlFor={`${id}-message`} className="text-small font-medium">
+                  {messageLabel}
+                </label>
+                <textarea
+                  id={`${id}-message`}
+                  name="message"
+                  rows={5}
+                  required
+                  aria-invalid={!!errors.message}
+                  aria-describedby={describedBy("message")}
+                  className={`mt-1.5 block resize-y ${field} ${border("message")}`}
+                />
+                {errorText("message")}
+              </div>
 
-                    <div>
-                      <label htmlFor={`${id}-email`} className="text-small font-medium">
-                        Email
-                      </label>
-                      <input
-                        id={`${id}-email`}
-                        name="email"
-                        type="email"
-                        autoComplete="email"
-                        required
-                        aria-invalid={!!errors.email}
-                        aria-describedby={describedBy("email")}
-                        className={`mt-1.5 ${field} ${border("email")}`}
-                      />
-                      {errorText("email")}
-                    </div>
-
-                    <fieldset>
-                      <legend className="text-small font-medium">I&apos;m…</legend>
-                      <div className="mt-1.5 flex flex-wrap gap-2">
-                        {copy.reasons.map((option) => (
-                          <label
-                            key={option.value}
-                            className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-button border-[1.5px] border-line bg-paper px-3.5 text-small transition-colors duration-150 hover:border-ink has-checked:border-ink has-checked:bg-blush has-focus-visible:outline-2 has-focus-visible:outline-offset-4 has-focus-visible:outline-pink"
-                          >
-                            <input
-                              type="radio"
-                              name="reason"
-                              value={option.value}
-                              checked={reason === option.value}
-                              onChange={() => setReason(option.value)}
-                              className="size-3.5 accent-ink"
-                            />
-                            {option.label}
-                          </label>
-                        ))}
-                      </div>
-                    </fieldset>
-
-                    <div>
-                      <label htmlFor={`${id}-message`} className="text-small font-medium">
-                        {messageLabel}
-                      </label>
-                      <textarea
-                        id={`${id}-message`}
-                        name="message"
-                        rows={5}
-                        required
-                        aria-invalid={!!errors.message}
-                        aria-describedby={describedBy("message")}
-                        className={`mt-1.5 block resize-y ${field} ${border("message")}`}
-                      />
-                      {errorText("message")}
-                    </div>
-
-                    {/* Hidden from people; bots that fill it in are ignored */}
-                    <div aria-hidden="true" className="absolute left-[-9999px] size-px overflow-hidden">
-                      <label htmlFor={`${id}-${honeypot}`}>Company</label>
-                      <input id={`${id}-${honeypot}`} name={honeypot} tabIndex={-1} autoComplete="off" />
-                    </div>
-                  </div>
-
-                  {status === "error" && (
-                    <p role="alert" className="mt-5 text-small text-rose">
-                      Sorry, that didn&apos;t send. Please try again in a moment
-                      {email ? (
-                        <>
-                          , or email me at{" "}
-                          <a href={`mailto:${email}`} className="link-mark">
-                            {email}
-                          </a>
-                        </>
-                      ) : null}
-                      .
-                    </p>
-                  )}
-
-                  <div className="mt-6 flex items-center gap-4">
-                    <button type="submit" className="btn disabled:opacity-70" disabled={status === "sending"} aria-disabled={status === "sending"}>
-                      {status === "sending" ? "Sending…" : "Send"}
-                    </button>
-                    <p aria-live="polite" className="sr-only">
-                      {status === "sending" ? "Sending your message" : ""}
-                    </p>
-                  </div>
-                </form>
-              )}
+              {/* Hidden from people; bots that fill it in are ignored */}
+              <div aria-hidden="true" className="absolute left-[-9999px] size-px overflow-hidden">
+                <label htmlFor={`${id}-${honeypot}`}>Company</label>
+                <input id={`${id}-${honeypot}`} name={honeypot} tabIndex={-1} autoComplete="off" />
+              </div>
             </div>
-          </dialog>,
-          document.body,
+
+            {status === "error" && (
+              <p role="alert" className="mt-5 text-small text-rose">
+                Sorry, that didn&apos;t send. Please try again in a moment, or email me at{" "}
+                <a href={`mailto:${email}`} className="link-mark">
+                  {email}
+                </a>
+                .
+              </p>
+            )}
+
+            <div className="mt-6 flex items-center gap-4">
+              <button type="submit" className="btn disabled:opacity-70" disabled={status === "sending"} aria-disabled={status === "sending"}>
+                {status === "sending" ? "Sending…" : "Send"}
+              </button>
+              <p aria-live="polite" className="sr-only">
+                {status === "sending" ? "Sending your message" : ""}
+              </p>
+            </div>
+          </form>
         )}
-    </>
+      </div>
+    </dialog>
   );
 }

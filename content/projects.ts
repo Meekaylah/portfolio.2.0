@@ -1,24 +1,23 @@
 import type { StaticImageData } from "next/image";
 
-export type ProjectKind = "website" | "app" | "design-engineering" | "webapp";
+export type ProjectKind = "website" | "webapp";
 
 export type Project = {
   id: string;
-  /** Websites and apps get the wide card; design-engineering pieces the narrow one. */
+  /** The label above the title. */
   kind: ProjectKind;
   title: string;
   description: string;
   stack: string;
   /** Ground behind the still. */
   tint: "tint-pink" | "tint-sage" | "tint-butter";
-  /** Until supplied, the card shows a "[still image]" block. */
-  still?: { src: StaticImageData | string; alt: string };
+  still: { src: StaticImageData | string; alt: string };
   /** Muted screen recording, and the first frame shown while it loads. Without one the card stays a still. */
   video?: { webm: string; mp4: string; poster: string };
-  /** Live site, or the GitHub repo for design-engineering pieces. */
-  href?: string;
+  /** Live site. */
+  href: string;
   /** Source code, shown as a GitHub icon beside the link. */
-  repo?: string;
+  repo: string;
 };
 
 export const projects: Project[] = [

@@ -48,7 +48,7 @@ export default async function Image() {
 
         <div style={{ display: "flex", alignItems: "center", gap: 14, fontFamily: "Figtree", fontSize: 28 }}>
           <div style={{ width: 14, height: 14, borderRadius: 7, background: pink }} />
-          {site.hero.availability[0]?.text}
+          {site.hero.availability}
         </div>
       </div>
     ),

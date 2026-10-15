@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-export type MenuLink = { label: string; href: string | null; external?: boolean };
+export type MenuLink = { label: string; href: string; external?: boolean };
 
 /* Below 720px the side links fold into this. A native modal <dialog> traps
    focus, closes on Esc and hands focus back to the Menu button. */
@@ -43,19 +43,15 @@ export function MobileMenu({ links }: { links: MenuLink[] }) {
           <ul className="mt-4 flex flex-col">
             {links.map((link) => (
               <li key={link.label}>
-                {link.href ? (
-                  <a
-                    href={link.href}
-                    target={link.external ? "_blank" : undefined}
-                    rel={link.external ? "noopener noreferrer" : undefined}
-                    className="flex min-h-14 items-center font-display text-h3 transition-colors duration-150 hover:text-rose"
-                    onClick={() => dialog.current?.close()}
-                  >
-                    {link.label}
-                  </a>
-                ) : (
-                  <span className="flex min-h-14 items-center font-display text-h3">{link.label}</span>
-                )}
+                <a
+                  href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
+                  className="flex min-h-14 items-center font-display text-h3 transition-colors duration-150 hover:text-rose"
+                  onClick={() => dialog.current?.close()}
+                >
+                  {link.label}
+                </a>
               </li>
             ))}
           </ul>

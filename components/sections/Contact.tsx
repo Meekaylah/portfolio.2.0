@@ -1,4 +1,3 @@
-import { MaybeLink } from "@/components/ui/MaybeLink";
 import { FloatIn } from "@/components/ui/FloatIn";
 import { site } from "@/content/site";
 import { MessageButton } from "./MessageDialog";
@@ -68,15 +67,15 @@ export function Contact() {
 
             <p className={`mt-7 ${body}`}>{contact.body}</p>
             <p className={`mt-4.5 ${body}`}>
-              <MaybeLink href={email ? `mailto:${email}` : null} className={`text-on-ink ${inkLink}`}>
+              <a href={`mailto:${email}`} className={`text-on-ink ${inkLink}`}>
                 Send me an email
-              </MaybeLink>
+              </a>
               ,{" "}
-              <MaybeLink href={links.bookCall} target="_blank" rel="noopener noreferrer" className={`text-on-ink ${inkLink}`}>
+              <a href={links.bookCall} target="_blank" rel="noopener noreferrer" className={`text-on-ink ${inkLink}`}>
                 book a quick call
-              </MaybeLink>
+              </a>
               , or{" "}
-              <MessageButton className={`cursor-pointer text-on-ink ${inkLink}`} />
+              <MessageButton className={`text-on-ink ${inkLink}`} />
               .
             </p>
           </FloatIn>

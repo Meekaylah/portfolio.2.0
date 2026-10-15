@@ -1,15 +1,12 @@
 import { FloatIn } from "@/components/ui/FloatIn";
 import Image from "next/image";
-import { MaybeLink } from "@/components/ui/MaybeLink";
 import { projects, type Project, type ProjectKind } from "@/content/projects";
 import { PreviewCard } from "./PreviewCard";
 import { ScrollButtons } from "./ScrollButtons";
 
 const kindLabel: Record<ProjectKind, string> = {
   website: "Website",
-  app: "App",
   webapp: "Web App",
-  "design-engineering": "Design engineering",
 };
 
 const tint: Record<Project["tint"], string> = {
@@ -19,22 +16,17 @@ const tint: Record<Project["tint"], string> = {
 };
 
 function ProjectCard({ project }: { project: Project }) {
-  const wide = project.kind !== "design-engineering";
-  const card = `group flex flex-none snap-start flex-col gap-3.5 ${wide ? "w-[min(560px,76vw)]" : "w-[min(280px,62vw)]"}`;
+  const card = "group flex flex-none snap-start flex-col gap-3.5 w-[min(560px,76vw)]";
   const media = `relative h-[380px] overflow-hidden rounded-media border border-line max-nav:h-[300px] ${tint[project.tint]}`;
 
-  const still = project.still ? (
+  const still = (
     <Image
       src={project.still.src}
       alt={project.still.alt}
       fill
-      sizes={wide ? "(max-width: 720px) 76vw, 560px" : "(max-width: 720px) 62vw, 280px"}
+      sizes="(max-width: 720px) 76vw, 560px"
       className="object-cover"
     />
-  ) : (
-    <div className="absolute inset-0 flex items-center justify-center text-caption text-ink-muted">
-      [still image]
-    </div>
   );
 
   const details = (
@@ -45,22 +37,20 @@ function ProjectCard({ project }: { project: Project }) {
       {/* Slides in on hover or keyboard focus; always there on touch screens */}
       <div className="flex min-h-11 -translate-y-1 flex-wrap items-center gap-x-1 text-caption opacity-0 transition duration-200 group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100">
         <span className="text-ink-muted">{project.stack}</span>
-        {project.repo && (
-          <a
-            href={project.repo}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Code for ${project.title} on GitHub`}
-            className="inline-flex size-11 items-center justify-center transition-colors duration-150 ease-soft hover:text-rose"
-          >
-            <svg aria-hidden="true" focusable="false" width={20} height={20} viewBox="0 0 16 16" className="fill-current">
-              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
-            </svg>
-          </a>
-        )}
-        <MaybeLink href={project.href ?? null} target="_blank" rel="noopener noreferrer" className="link-mark inline-flex min-h-11 items-center">
-          {project.kind === "design-engineering" ? "See it on GitHub →" : "View project →"}
-        </MaybeLink>
+        <a
+          href={project.repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Code for ${project.title} on GitHub`}
+          className="inline-flex size-11 items-center justify-center transition-colors duration-150 ease-soft hover:text-rose"
+        >
+          <svg aria-hidden="true" focusable="false" width={20} height={20} viewBox="0 0 16 16" className="fill-current">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+          </svg>
+        </a>
+        <a href={project.href} target="_blank" rel="noopener noreferrer" className="link-mark inline-flex min-h-11 items-center">
+          View project →
+        </a>
       </div>
     </div>
   );
@@ -115,7 +105,7 @@ export function Work() {
 
         <div className="flex items-center gap-5 max-[55rem]:w-full max-[55rem]:justify-between">
           {/* The arrow hangs to the left of the words, so they keep room for it.
-              Below 720px it flips over to their right, smaller, into the gap
+              Below 880px it flips over to their right, smaller, into the gap
               before the buttons; the narrowest phones have no gap to give. */}
           <div aria-hidden="true" className="relative ml-18 font-display text-small text-rose max-[55rem]:ml-0">
             <svg
