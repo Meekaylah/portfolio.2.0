@@ -13,11 +13,15 @@ export async function sendMessage(message: ContactMessage) {
   const { RESEND_API_KEY: key, CONTACT_FROM: from, CONTACT_TO: to } = process.env;
   if (!key || !from || !to) throw new NotConfiguredError("Resend is not configured");
 
+  /* Show the visitor's name in the inbox; the address stays ours so it passes SPF/DKIM */
+  const address = from.match(/<([^>]+)>/)?.[1] ?? from;
+  const name = message.name.replace(/["<>\r\n]/g, "").trim();
+
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      from,
+      from: `"${name} via Portfolio" <${address}>`,
       to: [to],
       reply_to: message.email,
       subject: `Portfolio message from ${message.name}`,

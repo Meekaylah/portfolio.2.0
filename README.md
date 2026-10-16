@@ -23,6 +23,18 @@ npm run dev
 
 Then open [http://localhost:3000](http://localhost:3000).
 
+### Contact form
+
+The contact form sends through [Resend](https://resend.com). Without these variables, `/api/contact` answers 503. Put them in `.env.local` locally, or in your host's environment settings in production:
+
+```bash
+RESEND_API_KEY=re_xxx                             # Resend → API Keys
+CONTACT_FROM="Portfolio <hello@yourdomain.com>"   # must be on a domain verified in Resend
+CONTACT_TO=you@example.com                        # where messages are delivered
+```
+
+To test before you've verified a domain, use `onboarding@resend.dev` as the sender. In that case `CONTACT_TO` must be the email address on your Resend account. Restart the dev server after you change env files.
+
 ## Scripts
 
 | Command | What it does |
