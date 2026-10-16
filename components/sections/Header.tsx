@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { MaybeLink } from "@/components/ui/MaybeLink";
 import { Wordmark } from "@/components/ui/Wordmark";
-import { site } from "@/content/site";
 import { MobileMenu, type MenuLink } from "./MobileMenu";
 
 const left: MenuLink[] = [
@@ -17,7 +15,7 @@ function SideNav({ label, links, className }: { label: string; links: MenuLink[]
   return (
     <nav aria-label={label} className={`flex gap-[clamp(1.5rem,3vw,2.5rem)] max-nav:hidden ${className ?? ""}`}>
       {links.map((link) => (
-        <MaybeLink
+        <a
           key={link.label}
           href={link.href}
           target={link.external ? "_blank" : undefined}
@@ -32,7 +30,7 @@ function SideNav({ label, links, className }: { label: string; links: MenuLink[]
             />
             <span className="relative">{link.label}</span>
           </span>
-        </MaybeLink>
+        </a>
       ))}
     </nav>
   );

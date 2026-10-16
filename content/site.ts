@@ -1,5 +1,3 @@
-export type Availability = { text: string; tone: "pink" | "sage" };
-
 export type SiteContent = {
   wordmark: string;
   legalName: string;
@@ -10,22 +8,22 @@ export type SiteContent = {
     lead: string;
     rest: string;
     cta: string;
-    availability: Availability[];
+    /** Shown beside the pulsing pink dot. */
+    availability: string;
     location: string;
   };
-  /** null until supplied: the link keeps its label but goes nowhere. */
-  email: string | null;
+  email: string;
   links: {
-    cv: string | null;
-    github: string | null;
-    linkedin: string | null;
-    bookCall: string | null;
+    cv: string;
+    github: string;
+    linkedin: string;
+    bookCall: string;
   };
   help: {
     title: string;
     note: string;
     teams: { eyebrow: string; title: string; body: string; points: string[]; cta: string };
-    clients: { eyebrow: string; title: string; body: string[]; points: string[]; cta: string };
+    clients: { eyebrow: string; title: string; body: string[]; cta: string };
   };
   contact: {
     headline: string;
@@ -56,9 +54,7 @@ export const site: SiteContent = {
     lead: "Hi, I'm Michaela,",
     rest: "a software engineer who builds user friendly interfaces.",
     cta: "Say hello",
-    availability: [
-      { text: "Open to software engineering roles", tone: "pink" },
-    ],
+    availability: "Open to software engineering roles",
     location: "Cambridge, United Kingdom",
   },
   email: "michaelausangaa@gmail.com",
@@ -84,12 +80,6 @@ export const site: SiteContent = {
       body: [
         "Whether it’s a brand-new idea, a product that needs its next feature, a landing page that turns visitors into users, or an internal tool that takes the busywork off your team, I’ll help you get it built and in front of real people, fast.",
         "Whatever you have in mind, I’d love to hear about it",
-      ],
-      points: [
-        "MVPs built quickly, so you can test the idea with real people",
-        "AI features that actually help your users, not just look clever",
-        "Landing pages and copy that turn visitors into users",
-        "Internal tools that take the busywork off your team"
       ],
       cta: "Tell me about your project",
     },

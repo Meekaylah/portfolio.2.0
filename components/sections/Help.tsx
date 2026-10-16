@@ -1,5 +1,4 @@
 import { FloatIn } from "@/components/ui/FloatIn";
-import { MaybeLink } from "@/components/ui/MaybeLink";
 import { site } from "@/content/site";
 import { MessageButton } from "./MessageDialog";
 
@@ -64,17 +63,17 @@ export function Help() {
               ))}
             </ul>
             <div className="mt-3.5 flex flex-wrap items-center gap-5">
-              <MaybeLink href={links.cv} target="_blank" rel="noopener noreferrer" className="btn">
+              <a href={links.cv} target="_blank" rel="noopener noreferrer" className="btn">
                 {help.teams.cta}
-              </MaybeLink>
+              </a>
               {/* Kept together, so they wrap below the button as a pair */}
               <div className="flex gap-5">
-                <MaybeLink href={links.github} target="_blank" rel="noopener noreferrer" className={textLink}>
+                <a href={links.github} target="_blank" rel="noopener noreferrer" className={textLink}>
                   GitHub
-                </MaybeLink>
-                <MaybeLink href={links.linkedin} target="_blank" rel="noopener noreferrer" className={textLink}>
+                </a>
+                <a href={links.linkedin} target="_blank" rel="noopener noreferrer" className={textLink}>
                   LinkedIn
-                </MaybeLink>
+                </a>
               </div>
             </div>
           </div>

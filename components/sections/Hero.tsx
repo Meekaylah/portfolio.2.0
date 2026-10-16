@@ -11,21 +11,16 @@ import { SpeechBubble } from "@/components/doodles/SpeechBubble";
 import { Squiggle } from "@/components/doodles/Squiggle";
 import { TextReveal } from "@/components/ui/TextReveal";
 import { site } from "@/content/site";
-import { headline, revealDuration } from "@/lib/motion";
+import { headline, revealTiming } from "@/lib/motion";
 import { MessageButton } from "./MessageDialog";
 import { PulseDot } from "./PulseDot";
-
-const dot = {
-  pink: "bg-pink",
-  sage: "border-[1.5px] border-ink bg-sage",
-};
 
 export function Hero() {
   const { hero } = site;
   /* The rest follows on from the lead's last word, after a short pause */
   const leadWords = hero.lead.trim().split(/\s+/).length;
   const restDelay = headline.delay + leadWords * headline.stagger + headline.pause;
-  const headlineEnd = restDelay + revealDuration(hero.rest);
+  const headlineEnd = restDelay + revealTiming(hero.rest).total;
 
   return (
     <div className="px-6">
@@ -63,18 +58,10 @@ export function Hero() {
           <div className="relative mt-10 flex flex-wrap items-center justify-center gap-5">
             <MessageButton className="btn">{hero.cta}</MessageButton>
             <div className="text-left text-small leading-[1.35]">
-              <ul>
-                {hero.availability.map((line) => (
-                  <li key={line.text} className="flex items-center gap-2">
-                    {line.tone === "pink" ? (
-                      <PulseDot delay={headlineEnd} />
-                    ) : (
-                      <span aria-hidden="true" className={`size-2 rounded-full ${dot[line.tone]}`} />
-                    )}
-                    {line.text}
-                  </li>
-                ))}
-              </ul>
+              <p className="flex items-center gap-2">
+                <PulseDot delay={headlineEnd} />
+                {hero.availability}
+              </p>
               <p className="pl-4 text-ink-muted">{hero.location}</p>
             </div>
           </div>
