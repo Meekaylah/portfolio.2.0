@@ -46,7 +46,7 @@ export const site: SiteContent = {
   legalName: "Michaela Usanga",
   url: "https://www.michaelausanga.com",
   metadata: {
-    title: "Michaela Usanga's Portfolio",
+    title: "Michaela Usanga - Software Engineer & Product Builder",
     description:
       "Michaela Usanga is a software engineer and web developer specializing in building modern, responsive software. Explore her portfolio to see her projects and skills.",
   },
