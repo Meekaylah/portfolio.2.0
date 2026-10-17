@@ -3,6 +3,7 @@ import { Young_Serif, Figtree } from "next/font/google";
 import { MotionProvider } from "@/components/MotionProvider";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/site-url";
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
 
 const youngSerif = Young_Serif({
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <style>{"[data-reveal]{opacity:1!important;filter:none!important;transform:none!important}"}</style>
         </noscript>
         <MotionProvider>{children}</MotionProvider>
+        <Analytics />
       </body>
     </html>
   );
