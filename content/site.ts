@@ -44,18 +44,18 @@ export type SiteContent = {
 export const site: SiteContent = {
   wordmark: "michaela.dev",
   legalName: "Michaela Usanga",
-  url: null,
+  url: "https://www.michaelausanga.com",
   metadata: {
     title: "Michaela Usanga's Portfolio",
     description:
-      "Michaela Usanga is a software engineer and web developer specializing in building modern, responsive web applications. Explore her portfolio to see her projects and skills.",
+      "Michaela Usanga is a software engineer and web developer specializing in building modern, responsive software. Explore her portfolio to see her projects and skills.",
   },
   hero: {
     lead: "Hi, I'm Michaela,",
     rest: "a software engineer who builds user friendly interfaces.",
     cta: "Say hello",
     availability: "Open to software engineering roles",
-    location: "Cambridge, United Kingdom",
+    location: "United Kingdom",
   },
   email: "michaelausangaa@gmail.com",
   links: { cv: "https://docs.google.com/document/d/10k_5fUc7ayi0R4zU3oCyTIUMA9uQ9t_kFpjbTtsm-JE/edit?usp=sharing", github: "https://github.com/Meekaylah", linkedin: "https://www.linkedin.com/in/michaela-usanga/", bookCall: "https://calendar.app.google/dHSEcLa4oybsQrjUA" },
