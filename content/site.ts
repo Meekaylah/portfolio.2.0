@@ -58,7 +58,7 @@ export const site: SiteContent = {
     location: "United Kingdom",
   },
   email: "michaelausangaa@gmail.com",
-  links: { cv: "https://docs.google.com/document/d/10k_5fUc7ayi0R4zU3oCyTIUMA9uQ9t_kFpjbTtsm-JE/edit?usp=sharing", github: "https://github.com/Meekaylah", linkedin: "https://www.linkedin.com/in/michaela-usanga/", bookCall: "https://calendar.app.google/dHSEcLa4oybsQrjUA" },
+  links: { cv: "/CV.pdf", github: "https://github.com/Meekaylah", linkedin: "https://www.linkedin.com/in/michaela-usanga/", bookCall: "https://calendar.app.google/dHSEcLa4oybsQrjUA" },
   help: {
     title: "How I can help",
     note: "pick whichever sounds like you",
