@@ -43,7 +43,7 @@ export function Header() {
         <SideNav label="Primary, left" links={left} className="justify-end" />
         <Link
           href="/"
-          aria-label="michaela.dev, home"
+          aria-label="michaela, home"
           className="col-start-2 px-[clamp(0.5rem,2vw,1.75rem)] transition-colors duration-150 hover:text-rose"
         >
           <Wordmark className="items-center text-[clamp(1.5rem,2.6vw,2rem)]" underlineClassName="-mt-[8px] text-pink" />

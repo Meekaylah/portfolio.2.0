@@ -1,4 +1,4 @@
-# michaela.dev
+# michaela
 
 My personal portfolio: a one-page site with hand-drawn doodles you can pick up and fling, project cards that play a preview on hover, and a contact form that emails me.
 

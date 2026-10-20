@@ -37,7 +37,7 @@ export function Footer() {
         <div className="flex flex-col gap-3.5">
           <a
             href="#"
-            aria-label="michaela.dev, back to top"
+            aria-label="michaela, back to top"
             className="self-start text-on-ink-display transition-colors duration-150 hover:text-on-ink"
           >
             <Wordmark

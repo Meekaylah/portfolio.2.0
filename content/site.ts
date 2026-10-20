@@ -42,7 +42,7 @@ export type SiteContent = {
 };
 
 export const site: SiteContent = {
-  wordmark: "michaela.dev",
+  wordmark: "michaela",
   legalName: "Michaela Usanga",
   url: "https://www.michaelausanga.com",
   metadata: {

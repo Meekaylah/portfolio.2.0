@@ -1,6 +1,6 @@
 import { site } from "@/content/site";
 
-/* "michaela.dev" with its hand-drawn underline. Size and colours come from the caller. */
+/* "michaela" with its hand-drawn underline. Size and colours come from the caller. */
 export function Wordmark({
   className = "",
   underlineClassName = "",
